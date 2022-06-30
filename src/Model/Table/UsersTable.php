@@ -65,17 +65,14 @@ class UsersTable extends Table
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
-            ->notEmptyString('password');
+            ->notEmptyString('password','This field cannot be left empty','create');
 
         $validator
             ->integer('role')
             ->requirePresence('role', 'create')
             ->notEmptyString('role');
 
-        $validator
-            ->integer('active')
-            ->requirePresence('active', 'create')
-            ->notEmptyString('active');
+        
 
         return $validator;
     }
@@ -99,5 +96,16 @@ class UsersTable extends Table
             ->where(['active' => 1]);
 
         return $query;
+    }
+    public function recoverPassword($id){
+        $user = $this->get($id);
+        return $user->password;
+    }
+
+    public function beforeDelete($event,$entity,$options){
+        if($entity->role == 1){
+            return false;
+        }
+        return true;
     }
 }

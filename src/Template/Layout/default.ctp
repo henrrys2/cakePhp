@@ -26,7 +26,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
     <?= $this->Html->css('boostrap.min.css') ?>
-    <?= $this->Html->script(['jquery-3.2.1.min','popper.min','boostrap.min']); ?>
+    
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
 
@@ -42,6 +42,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </div>
     <footer>
     </footer>
+    <?= $this->Html->script(['jquery-3.2.1.min','popper.min','boostrap.min']); ?>
+
 </body>
 
 </html>

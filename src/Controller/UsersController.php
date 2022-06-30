@@ -46,8 +46,11 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectURL());
             }else{
-                $this->Flash->error('Datos Invalidos',['key' => 'auth']);
+                $this->Flash->error('Invalid data',['key' => 'auth']);
             }
+        }
+        if($this->Auth->user()){
+            return $this->redirect(['controller' => 'Users','action' => 'index']);
         }
     }
 
@@ -98,13 +101,13 @@ class UsersController extends AppController
                 // print_r($arraySave);exit;
                 $user = $this->Users->patchEntity($user, $arraySave);
                 if ($this->Users->save($user)) {
-                    $this->Flash->success(__('Se guardo Exitosamente.'));
+                    $this->Flash->success(__('Success.'));
                     if(!isset($current_user)){
                         return $this->redirect(['action' => 'login']);
                     }
                     return $this->redirect(['action' => 'index']);
                 }
-                $this->Flash->error(__('No se pudo guardar. Intentelo denuevo'));
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
 
             $this->set(compact('user','arrayRoles'));
@@ -162,7 +165,8 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        
+       
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));

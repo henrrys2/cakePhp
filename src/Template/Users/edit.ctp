@@ -1,9 +1,3 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
 
 <div class="container">
     <?= $this->Form->create($user) ?>
@@ -21,6 +15,7 @@
             echo $this->Form->control('active',['type' => 'checkbox','required'=>'','checked'=> $user['active'] == 1 ? 'checked' : '']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Edit'),['class' => 'btn btn-success']) ?>
+    <?= $this->Html->link('Back',['controller' => 'Users','action' =>isset($current_user) ? 'index':'login'],['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>

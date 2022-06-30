@@ -398,6 +398,7 @@ fieldset legend {
     float: right;
     text-transform: uppercase;
     box-shadow: none;
+    
 }
 
 .form button:hover, .form button:focus {

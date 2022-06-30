@@ -33,8 +33,8 @@
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id],['class' => 'btn btn-sm btn-primary']) ?>
                     <?php if($current_user['role'] == 1): ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id],['class'=> 'btn btn-sm btn-success']) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id],['class'=> 'btn btn-sm btn-warning'],['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id],['class'=> 'btn btn-sm btn-success']) ?>
+                        <?= $this->Html->Link(_('Delete'), ['action' => 'delete', $user->id],['confirm' => 'Delete User?','class'=> 'btn btn-sm btn-danger']) ?>
                     <?php endif; ?>
                 </td>
             </tr>
