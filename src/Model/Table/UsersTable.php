@@ -92,9 +92,9 @@ class UsersTable extends Table
     }
     public function findAuth(\Cake\ORM\Query $query, array $options){
         $query  
-            ->select(['id','name','email','password','role'])   
-            ->where(['active' => 1]);
-
+            ->select(['id','name','email','password','role','active']);
+            
+        
         return $query;
     }
     public function recoverPassword($id){

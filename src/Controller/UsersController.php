@@ -4,13 +4,7 @@ namespace App\Controller;
 use Cake\Auth\DefaultPasswordHasher;
 use App\Controller\AppController;
 
-/**
- * Users Controller
- *
- * @property \App\Model\Table\UsersTable $Users
- *
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
+
 class UsersController extends AppController
 {
     public function beforeFilter(\Cake\Event\Event $event){
@@ -19,7 +13,7 @@ class UsersController extends AppController
     }
     public function isAuthorized($user) {
         if(isset($user['role']) and $user['role'] == 2){
-            if(in_array($this->request->action,['index', 'logout'])){
+            if(in_array($this->request->action,['index', 'logout','view'])){
                 return true;
             }
         }
@@ -28,10 +22,27 @@ class UsersController extends AppController
     
     public function index()
     {
-       
-        $users = $this->paginate($this->Users);
 
+        if($this->request->is('post')){
 
+            $search = $this->request->getData();
+           
+            $options = [
+                'conditions' => [
+                    'OR'=>[
+                        ['name LIKE' => "%{$search['search']}%"],
+                        ['email LIKE' => "%{$search['search']}%"],
+                        
+                    ]
+                ],
+            ];
+            $query = $this->Users->find('all',$options);
+            $users = $this->Paginate($query);
+           
+            
+        }else{
+            $users = $this->paginate($this->Users);
+        }
         $this->set(compact('users'));
     }
 
@@ -43,8 +54,12 @@ class UsersController extends AppController
             $user =  $this->Auth->identify();
            
             if($user){
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectURL());
+                if($user['active'] ==1){
+                    $this->Auth->setUser($user);
+                    return $this->redirect($this->Auth->redirectURL());
+                }else{
+                    $this->Flash->error(__('User Inactive.'));
+                }
             }else{
                 $this->Flash->error('Invalid data',['key' => 'auth']);
             }
@@ -60,13 +75,7 @@ class UsersController extends AppController
 
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+    
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
@@ -76,11 +85,7 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
+    
     public function add()
     {
        
@@ -98,7 +103,7 @@ class UsersController extends AppController
                     $arraySave['role'] = 2;
                 }
 
-                // print_r($arraySave);exit;
+                
                 $user = $this->Users->patchEntity($user, $arraySave);
                 if ($this->Users->save($user)) {
                     $this->Flash->success(__('Success.'));
@@ -114,13 +119,7 @@ class UsersController extends AppController
         
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+   
     public function edit($id = null)
     {
         
@@ -156,13 +155,7 @@ class UsersController extends AppController
         
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+    
     public function delete($id = null)
     {
         

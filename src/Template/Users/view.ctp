@@ -1,13 +1,11 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
 
 <div class="container">
     <h3><?= h($user->name) ?></h3>
     <table class="vertical-table">
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($user->id) ?></td>
+        </tr>
         <tr>
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($user->name) ?></td>
@@ -18,19 +16,16 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
+            <td>****************</td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
-        </tr>
+        
         <tr>
             <th scope="row"><?= __('Role') ?></th>
-            <td><?= $this->Number->format($user->role) ?></td>
+            <td><?= $this->Number->format($user->role) == 1 ? 'Admin' :'User'?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Active') ?></th>
-            <td><?= $this->Number->format($user->active) ?></td>
+            <td><?= $this->Number->format($user->active) == 1 ? 'Yes' : 'No' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

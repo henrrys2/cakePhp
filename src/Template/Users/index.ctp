@@ -1,12 +1,15 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
- */
-?>
 
-<div class="users index large-12 medium-8 columns content">
-    <h3><?= __('Users') ?></h3>
+    <?= $this->Form->create('search',['controller' => 'Users','action' =>'index']); ?>
+    <div class="input-group ">
+        <?= $this->Form->input('search',['class' => 'form-control rounded','placeholder' => 'Search','aria-label'=>"Search",'aria-describedby'=>"search-addon",'label'=> false]) ?>
+    
+        <?= $this->Form->button('Search',['class' => 'btn btn-sm btn-outline-primary']) ?>
+    </div>
+    <?= $this->Form->end(); ?>
+    
+    
+    <h3><?= $current_user['name'] ?></h3>
+    
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
